@@ -1,0 +1,17 @@
+syntax = "proto3";
+package main;
+option go_package = "./main";
+
+
+service UserService {
+    rpc Create(CreateUserRequest) returns (CreateUserResponse) {}
+}
+
+message CreateUserRequest {
+    string email = 1;
+    string screenName = 2;
+}
+                                                                                                             
+message CreateUserResponse {
+    string id = 1;
+}
