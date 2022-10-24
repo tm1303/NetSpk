@@ -1,1 +1,0 @@
-grpcurl -plaintext localhost:9000 gen.UserService.Create

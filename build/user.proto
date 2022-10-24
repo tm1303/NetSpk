@@ -3,8 +3,8 @@ package gen;
 option go_package = "gen/";
 
 
-service UserService {
-    rpc Create(CreateUserRequest) returns (CreateUserResponse) {}
+service FollowerService {
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
 }
 
 message CreateUserRequest {
