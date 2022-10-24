@@ -4,7 +4,8 @@ import (
 	"followerservice/pkg/models"
 )
 
-func StartUpdateManager(userStore *models.UserStore, userUpdates chan models.UserStoreAction) {
+// maintain single access to the store
+func StartStoreManager(userStore *models.UserStore, userUpdates chan models.UserStoreAction) {
 	go func() {
 		for {
 			nextUpdate := <-userUpdates

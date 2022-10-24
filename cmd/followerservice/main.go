@@ -4,22 +4,17 @@ import (
 	"log"
 
 	"followerservice/internal/service"
-	"followerservice/pkg/gen"
 	"followerservice/pkg/models"
 )
 
 func main() {
 	log.Println("Starting...")
 
-	userUpdates := make(chan models.UserStoreAction)
-	userStore := models.UserStore{}
-	followerService := followerservice.FollowerServer{
-		UnimplementedFollowerServiceServer: gen.UnimplementedFollowerServiceServer{},
-		UserUpdates:                    userUpdates,
-	}
+	userStoreActionQueue := make(chan models.UserStoreAction)
+	followerservice.StartStoreManager(models.NewUserStore(), userStoreActionQueue)
 
-	followerservice.StartUpdateManager(&userStore, userUpdates)
-	followerservice.StartGrpcServer(&followerService)
+	followerService := followerservice.NewFollowerServer(userStoreActionQueue)
+	followerservice.StartGrpcServer(followerService)
 
 	log.Println("Exiting...")
 }

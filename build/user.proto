@@ -5,6 +5,7 @@ option go_package = "gen/";
 
 service FollowerService {
     rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
+    rpc FollowUser(FollowUserRequest) returns (FollowUserResponse) {}
 }
 
 message CreateUserRequest {
@@ -14,4 +15,12 @@ message CreateUserRequest {
                                                                                                              
 message CreateUserResponse {
     string id = 1;
+}
+
+message FollowUserRequest {
+    string id = 1;
+    string followId = 2;
+}
+                                                                                             
+message FollowUserResponse {
 }
