@@ -11,7 +11,7 @@ import (
 func main() {
 	log.Println("Starting...")
 
-	userUpdates := make(chan models.UserUpdate)
+	userUpdates := make(chan models.UserStoreAction)
 	userStore := models.UserStore{}
 	followerService := followerservice.FollowerServer{
 		UnimplementedFollowerServiceServer: gen.UnimplementedFollowerServiceServer{},

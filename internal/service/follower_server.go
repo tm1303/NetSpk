@@ -12,7 +12,7 @@ import (
 
 type FollowerServer struct {
 	gen.UnimplementedFollowerServiceServer
-	UserUpdates chan models.UserUpdate
+	UserUpdates chan models.UserStoreAction
 }
 
 func (f *FollowerServer) CreateUser(ctx context.Context, in *gen.CreateUserRequest) (*gen.CreateUserResponse, error) {
@@ -26,7 +26,7 @@ func (f *FollowerServer) CreateUser(ctx context.Context, in *gen.CreateUserReque
 	}
 
 	response := make(chan bool)
-	update := models.UserUpdate{
+	update := models.UserStoreAction{
 		Action: func(userStore *models.UserStore){
 			userStore.Append(&newUser)
 			log.Printf("User store now has %v users...", userStore.Count() )

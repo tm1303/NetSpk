@@ -1,6 +1,6 @@
 package models 
 
 
-type UserUpdate struct {
+type UserStoreAction struct {
 	Action func(userStore *UserStore)
 }
