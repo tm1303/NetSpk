@@ -18,7 +18,7 @@ func main() {
 		UserUpdates:                    userUpdates,
 	}
 
-	followerservice.StartUpdateManager(userStore, userUpdates)
+	followerservice.StartUpdateManager(&userStore, userUpdates)
 	followerservice.StartGrpcServer(&followerService)
 
 	log.Println("Exiting...")

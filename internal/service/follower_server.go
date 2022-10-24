@@ -1,7 +1,7 @@
 package followerservice
 
 import (
-	"log"
+	 "log"
 
 	"followerservice/pkg/gen"
 	"followerservice/pkg/models"
@@ -15,11 +15,10 @@ type FollowerServer struct {
 	UserUpdates chan models.UserUpdate
 }
 
-func (s *FollowerServer) CreateUser(ctx context.Context, in *gen.CreateUserRequest) (*gen.CreateUserResponse, error) {
+func (f *FollowerServer) CreateUser(ctx context.Context, in *gen.CreateUserRequest) (*gen.CreateUserResponse, error) {
 	
-	newUserId := uuid.NewString()
 	newUser := models.User{
-		Id: newUserId,
+		Id: uuid.NewString(),
 		Email: in.Email,
 		ScreenName: in.ScreenName,
 		Follows: make(map[string]*models.User),
@@ -28,15 +27,14 @@ func (s *FollowerServer) CreateUser(ctx context.Context, in *gen.CreateUserReque
 
 	response := make(chan bool)
 	update := models.UserUpdate{
-		Action: func(userStore models.UserStore){
-			log.Printf("4 Running action on chan for email: %s", in.Email)
+		Action: func(userStore *models.UserStore){
+			userStore.Append(&newUser)
+			log.Printf("User store now has %v users...", userStore.Count() )
 			response <- true
-			return;
 		},
-		User: newUser,
 	}
 
-	s.UserUpdates <- update
+	f.UserUpdates <- update
 	hasCompleted := <-response
 	close(response)
 
